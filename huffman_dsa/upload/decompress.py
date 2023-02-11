@@ -29,7 +29,7 @@ def hdecompress(fname):
             decoded_text += character
             current_code = ""
 
-    dpath="media/"+fname+"-decompress.txt"
+    dpath="media/decompress.txt"
     file=open(dpath,"w")
     file.write(decoded_text)
     file.close()
