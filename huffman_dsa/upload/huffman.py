@@ -18,7 +18,7 @@ class HuffmanCoding:
 			self.left = None
 			self.right = None
 
-		# defining comparators less_than and equals
+		
 		def __lt__(self, other):
 			return self.freq < other.freq
 
@@ -29,7 +29,7 @@ class HuffmanCoding:
 				return False
 			return self.freq == other.freq
 
-	# functions for compression:
+	
 
 	def make_frequency_dict(self, text):
 		frequency = {}
@@ -123,10 +123,20 @@ class HuffmanCoding:
 			b = self.get_byte_array(padded_encoded_text)
 			output.write(bytes(b))
 
+		file=open("reverse_mapping.txt","w")
+		file.write(str(self.reverse_mapping))
+		file.close()
 		print("Compressed")
 		return output_path
+
 
 def hcompress(fname):
     h = HuffmanCoding("media/"+fname)
     output_path = h.compress()
+	
     return output_path
+
+# def hdecompress(fname):
+# 	h = HuffmanCoding("media/"+fname)
+# 	decom_path = h.decompress("media/"+fname)
+# 	return decom_path

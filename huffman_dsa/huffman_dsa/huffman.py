@@ -17,7 +17,7 @@ class HuffmanCoding:
 			self.left = None
 			self.right = None
 
-		# defining comparators less_than and equals
+		
 		def __lt__(self, other):
 			return self.freq < other.freq
 
@@ -28,7 +28,7 @@ class HuffmanCoding:
 				return False
 			return self.freq == other.freq
 
-	# functions for compression:
+	
 
 	def make_frequency_dict(self, text):
 		frequency = {}

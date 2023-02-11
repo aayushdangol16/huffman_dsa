@@ -25,8 +25,11 @@
         <h1>Decompress Your File</h1>
         <h5>Select your file to compress</h5>
         <div class="file">
-            <input class="form-control form-control-lg form" accept=".jpg,.png,.txt,.pdf" id="formFileLg" type="file">
-            <button type="button" class="btn submit btn-secondary btn-lg">Submit</button>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <input name="file" class="form-control form-control-lg form" accept=".jpg,.png,.txt,.pdf" id="formFileLg" type="file">
+            <button type="submit" class="btn submit btn-secondary btn-lg">Submit</button>
+            </form>
           </div>
         
    

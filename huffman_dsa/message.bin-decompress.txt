@@ -1,0 +1,191 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int freq[100];
+char char_[1000];
+int bcode[1000];
+char bchar[1000];
+struct huffman
+{
+	char data;
+	int frequency;
+	struct huffman *left,*right;
+};
+struct huffman *root,*newnode,*newnode1,*anode,*anode1,*tmp;
+void encode()
+{
+	int i=0,j=0;
+	newnode=(struct huffman *)malloc(sizeof(struct huffman));
+	newnode1=(struct huffman *)malloc(sizeof(struct huffman));
+	newnode->frequency=freq[0];
+	newnode->left=NULL;
+	newnode->right=NULL;
+	newnode->data=char_[0];
+	
+	newnode1->frequency=freq[1];
+	newnode1->left=NULL;
+	newnode1->right=NULL;
+	newnode1->data=char_[1];
+	
+	anode=(struct huffman *)malloc(sizeof(struct huffman));
+	anode->frequency=newnode->frequency+newnode1->frequency;
+	anode->left=newnode;
+	anode->right=newnode1;
+	anode->data=NULL;
+	i=2;
+	j=2;//i=2,j=2
+	while(j<strlen(char_))
+	{
+		if(anode->frequency>=freq[i])
+		{
+			anode1=anode;
+			newnode=(struct huffman *)malloc(sizeof(struct huffman));
+			newnode->data=char_[j];
+			newnode->frequency=freq[i];
+			newnode->left=NULL;
+			newnode->right=NULL;
+			
+			anode=(struct huffman *)malloc(sizeof(struct huffman));
+			anode->frequency=newnode->frequency+anode1->frequency;
+			anode->left=newnode;
+			anode->right=anode1;
+			anode->data=NULL;
+			i++;
+			j++;
+		}
+		else
+		{
+			anode1=anode;
+			newnode=(struct huffman *)malloc(sizeof(struct huffman));
+			newnode->data=char_[j];
+			newnode->frequency=freq[i];
+			newnode->left=NULL;
+			newnode->right=NULL;
+			
+			anode=(struct huffman *)malloc(sizeof(struct huffman));
+			anode->frequency=newnode->frequency+anode1->frequency;
+			anode->left=anode1;
+			anode->right=newnode;
+			anode->data=NULL;
+			i++;
+			j++;
+		}
+	}
+	root=anode;	
+}
+void encode_binary()
+{
+	int code=0,i=0,j=0;
+	struct huffman *tmp1;
+	tmp=root;
+	while(tmp->right!=NULL)
+	{
+		while(tmp->left!=NULL)
+		{
+			code=code*10+0;
+			tmp1=tmp;
+			tmp=tmp->left;
+			bchar[i++]=tmp->data;
+			bcode[j++]=code;
+			printf("%c\t%d\n",tmp->data,code);
+		}
+		code=(code/10)*10+1;
+		tmp=tmp1->right;
+	}
+	bchar[i++]=tmp->data;
+	bcode[j++]=code;
+	printf("%c\t%d\n",tmp->data,code);
+	
+}
+void convert(char str[100])
+{
+	int i,j;
+	FILE *output = fopen("binary.bin", "wb");
+	for(i=0;i<strlen(str);i++)
+	{
+		for(j=0;j<strlen(bchar);j++)
+		{
+			if(str[i]==bchar[j])
+			{
+				fprintf(output, "%d", bcode[j]);
+			}
+		}
+	}
+	fclose(output);
+}
+void determine_frequency(char fname[])
+{
+	char str[100], ch;
+    int i, j, k, len, count=0,p=0,temp,n;
+	FILE *file;
+	file=fopen(fname,"r");
+	if(file==NULL)
+	{
+		printf("Error opening file");
+		exit(1);
+	}
+	fgets(str, sizeof(str), file);
+	fclose(file);
+	len = strlen(str);
+    printf("\n");
+    for(i=0; i<len; i++)
+    {
+        ch = str[i];
+        for(j=0; j<len; j++)
+        {
+            if(ch==str[j])
+            {
+                count++;
+                for(k=j; k<(len-1); k++)
+                {
+                    str[k] = str[k+1];
+                }
+                len--;
+                str[len] = '\0';
+                j--;
+            }
+        }
+        char_[p]=ch;
+        freq[p]=count;
+        p++;
+        count=0;
+        i--;
+    }
+    n=strlen(char_);
+    for (i = 0; i < n - 1; i++) 
+	{
+        for (j = 0; j < n - i - 1; j++)
+		 {
+            if (freq[j] > freq[j + 1])
+			 {
+                temp = freq[j];
+                freq[j] = freq[j + 1];
+                freq[j + 1] = temp;
+                
+                temp = char_[j];
+                char_[j] = char_[j + 1];
+                char_[j + 1] = temp;
+            }
+        }
+    }
+    
+    
+    for(i=0;i<strlen(char_);i++)
+    {
+    	printf("%c = %d \n", char_[i], freq[i]);
+	}
+    
+}
+int main(int argc,char *argv[])
+{
+	char str[100],binary[1000];
+	determine_frequency(argv[1]);
+	encode();
+	encode_binary();
+	FILE *file;
+	file=fopen(argv[1],"r");
+	fgets(str, sizeof(str), file);
+	fclose(file);
+	convert(str);
+	return 0;
+}
