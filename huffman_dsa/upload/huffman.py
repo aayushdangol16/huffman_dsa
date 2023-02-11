@@ -122,8 +122,8 @@ class HuffmanCoding:
 
 			b = self.get_byte_array(padded_encoded_text)
 			output.write(bytes(b))
-
-		file=open("reverse_mapping.txt","w")
+		rpath="media/reverse_mapping.txt"
+		file=open(rpath,"w")
 		file.write(str(self.reverse_mapping))
 		file.close()
 		print("Compressed")
