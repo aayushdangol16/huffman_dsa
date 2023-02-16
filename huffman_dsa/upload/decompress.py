@@ -1,7 +1,9 @@
 import ast
+import os
 
 def hdecompress(fname):
     path="media/"+fname
+    filename, file_extension = os.path.splitext(path)
     file=open(path,"rb")
     bit_string = ""
     reverse_mapping={}
@@ -16,7 +18,7 @@ def hdecompress(fname):
     extra_padding = int(padded_info, 2)
     padded_encoded_text = padded_encoded_text[8:] 
     encoded_text = padded_encoded_text[:-1*extra_padding]
-    file=open("media/reverse_mapping.txt","r")
+    file=open(filename+".txt","r")
     f=file.read()
     reverse_mapping=ast.literal_eval(f)
     file.close()

@@ -108,7 +108,7 @@ class HuffmanCoding:
 		filename, file_extension = os.path.splitext(self.path)
 		output_path = filename + ".bin"
 
-		with open(self.path, 'r+') as file, open(output_path, 'wb') as output:
+		with open(self.path, 'r') as file, open(output_path, 'wb') as output:
 			text = file.read()
 			text = text.rstrip()
 
@@ -122,7 +122,7 @@ class HuffmanCoding:
 
 			b = self.get_byte_array(padded_encoded_text)
 			output.write(bytes(b))
-		rpath="media/reverse_mapping.txt"
+		rpath=filename+".txt"
 		file=open(rpath,"w")
 		file.write(str(self.reverse_mapping))
 		file.close()
