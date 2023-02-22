@@ -9,6 +9,7 @@ To use this site:
 <a href="https://www.programiz.com/dsa/huffman-coding" target="_blank">Click Here</a> for more information about Huffman Algorithm
 
 Get the app
+<br>
 <a href="https://aayush16.pythonanywhere.com/" target="_blank">
-    <img src="https://user-images.githubusercontent.com/47274622/218367741-48a1c5a7-385a-4d5c-8ecf-e82bbcd96be0.png" width="50" />
+    <img src="https://user-images.githubusercontent.com/47274622/218367741-48a1c5a7-385a-4d5c-8ecf-e82bbcd96be0.png" width="40" />
   </a>
